@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TA Room Assistance Tracker</title>
+</head>
+<body>
+  <h1>TA Room Assistance Tracker</h1>
+  
+  <form id="entryForm">
+    <input type="text" id="entryInput" placeholder="Enter entry" />
+    <button type="button" onclick="addEntry()">Add Entry</button>
+    <button type="button" onclick="summary()">Summary</button>
+  </form>
+  
+  <h2>Entries</h2>
+  <ul id="entryList"></ul>
+  
+  <h2>Summary</h2>
+  <div id="summary"></div>
+  
+  <script>
+    const entries = [];
+
+    function addEntry() {
+      const entryInput = document.getElementById("entryInput");
+      const entry = entryInput.value.trim();
+
+      if (entry === "") {
+        alert("Invalid entry");
+        return;
+      }
+
+      const [directoryId, description, duration] = entry.split(" ");
+      if (!directoryId || !description || !duration) {
+        alert("Invalid entry");
+        return;
+      }
+
+      entries.push({ directoryId, description, duration });
+      entryInput.value = "";
+    }
+
+    function summary() {
+      const summaryDiv = document.getElementById("summary");
+      const entryList = entries.sort((a, b) => a.duration - b.duration);
+
+      let summaryText = "Number of entries: " + entryList.length + "<br/>";
+      for (const entry of entryList) {
+        summaryText += entry.directoryId + entry.description + entry.duration + "<br/>";
+      }
+
+      summaryDiv.innerHTML = summaryText;
+    }
+  </script>
+</body>
+</html>
